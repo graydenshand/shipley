@@ -52,7 +52,8 @@ class team(baseObject):
     def returnProjectName(self, pid):
         p = project()
         p.getById(pid)
-        return p.data[0]['name']
+        if len(p.data) > 0:
+            return p.data[0]['name']
 
     def getAllByProject(self, pid):
         self.data = []
@@ -165,7 +166,7 @@ class team(baseObject):
         cur.execute(sql,id)
         for row in cur:
             self.data.append(row)
-        if len(self.data) == 1:
+        if len(self.data) > 0:
             return True
         else:
             return False
@@ -212,8 +213,10 @@ class team(baseObject):
             return ""
         self.data = []
         self.getAllByUser(uid)
-        
-        
+        print self.data
+        u = user()
+        u.getById(uid)   
+
         html = '''<div class="row" align='center'>'''
         if len(self.data) == 0:
             html += '''
@@ -221,18 +224,19 @@ class team(baseObject):
                     <p>''' + u.data[0]['fname'] + ''' is not assigned to any projects</p>
                 </div>
             '''
-        i = 0
-        for row in self.data:
-            if i % 3 == 0 and i != 0:
+        else:
+            i = 0
+            for row in self.data:
+                if i % 3 == 0 and i != 0:
+                    html += '''
+                        </div>
+                        <div class="row" align='center' style='margin-top: 2em'>'''
                 html += '''
-                    </div>
-                    <div class="row" align='center' style='margin-top: 2em'>'''
-            html += '''
-                <div class="col-sm-1"></div>
-                <div class="col-sm-3" id="userProject">
-                    <h3><a href="../project/''' + str(row['project']) + '''" style="color: #2EB4ED">''' + self.returnProjectName(row['project']) + '''</a></h3>
-                </div>'''
-            i += 1
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3" id="userProject">
+                        <h3><a href="../project/''' + str(row['project']) + '''" style="color: #2EB4ED">''' + self.returnProjectName(row['project']) + '''</a></h3>
+                    </div>'''
+                i += 1
 
 
         html += '''</div>

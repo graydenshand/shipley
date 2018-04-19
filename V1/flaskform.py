@@ -202,6 +202,7 @@ def edit_user(uid):
         <input type="submit" class='button-primary' value="''' + cta + '''"/>
 
     </form>
+    <a href="/users?delete=''' + uid + '''" onclick="return confirm('Are you sure you want to delete this user?')" style="color: #C2C2C2; font-size: 80%;''' + hide + '''">Delete User</a>
     </div>''' + col3 + '''
     </div>
 
@@ -217,7 +218,16 @@ def listusers():
     session['currentPage'] = "/users"
     print session['currentPage']
 
-    html = '''
+    u = user()
+
+    dmsg = ''
+
+    if request.args.get('delete') in u.getListOfIds():
+        id = request.args.get('delete')
+        u.deleteById(id)
+        dmsg = "User has been deleted"
+
+    html = '''<p style="color: green">''' + dmsg + '''</p>
     <a href="user/new">+ Create new user</a>
     <table style='width: 100%;' id='user_table'>
         <tr align="center" style="background-color: #2EB4ED; color: #EAEAEA; font-size: 1.13em">
@@ -227,24 +237,29 @@ def listusers():
             <td><b>Role</b></td>
         </tr>'''
         
-    u = user()
     u.getAll('role DESC')
-    i = 0
-    for row in u.data:
-        c = "#2EB4ED"
-        if i % 2 == 0:
-            c = "#016C9B"
+
+    if len(u.data) == 0:
+        html = '''<p style="color: green">''' + dmsg + '''</p>
+            <p>There are no users to display</p>
+        '''
+    else:
+        i = 0
+        for row in u.data:
+            c = "#2EB4ED"
+            if i % 2 == 0:
+                c = "#016C9B"
+            html += '''
+            <tr align="center" style="color: #EAEAEA; background-color:''' + c + '''">
+                <td><a href="/user/''' + str(row['id']) +'''">''' + str(row['fname']) + ''' ''' + str(row['lname']) +'''</a></td>
+                <td>''' + str(row['email']) +'''</td>
+                <td>''' + str(row['phoneNumber']) +'''</td>
+                <td>''' + u.returnRole(str(row['role'])) + '''</td>
+            </tr>'''
+            i += 1
         html += '''
-        <tr align="center" style="color: #EAEAEA; background-color:''' + c + '''">
-            <td><a href="/user/''' + str(row['id']) +'''">''' + str(row['fname']) + ''' ''' + str(row['lname']) +'''</a></td>
-            <td>''' + str(row['email']) +'''</td>
-            <td>''' + str(row['phoneNumber']) +'''</td>
-            <td>''' + u.returnRole(str(row['role'])) + '''</td>
-        </tr>'''
-        i += 1
-    html += '''
-    </table>
-    '''
+        </table>
+        '''
 
     return header() + html + footer()
 #END USER ROUTES
@@ -446,6 +461,7 @@ def edit_project(pid):
             <input type="submit" class='button-primary' value="''' + cta + '''"/>
 
         </form>
+        <a href="/projects?delete=''' + pid + '''" onclick="return confirm('Are you sure you want to delete ''' + p.data[0]['name'] + '''?');" style="color: #C2C2C2; font-size: 80%; ''' + hide + '''">Delete Project</a>
         </div>''' + col3 + '''
         </div>
 
@@ -464,7 +480,16 @@ def listprojects():
     print session['lastPage']
     print session['currentPage']
 
-    html = '''
+    p = project()
+
+    dmsg = ''
+
+    if request.args.get('delete') in p.getListOfIds():
+        id = request.args.get('delete')
+        p.deleteById(id)
+        dmsg = "Project has been deleted"
+
+    html = '''<p style="color: green">''' + dmsg + '''</p>
     <a href="project/new">+ Create new project</a>
     <table style='width: 100%;' id='user_table'>
         <tr align="center" style="background-color: #2EB4ED; color: #EAEAEA; font-size: 1.13em">
@@ -472,22 +497,26 @@ def listprojects():
             <td><b>Status</b></td>
         </tr>'''
         
-    p = project()
+    
     p.getAll('status DESC')
-    i = 0
-    for row in p.data:
-        c = "#2EB4ED"
-        if i % 2 == 0:
-            c = "#016C9B"
+    if len(p.data) == 0:
+        html = '''<p style="color: green">''' + dmsg + '''</p>
+        <p>There are no projects to display</p>'''
+    else:
+        i = 0
+        for row in p.data:
+            c = "#2EB4ED"
+            if i % 2 == 0:
+                c = "#016C9B"
+            html += '''
+            <tr align="center" style="color: #EAEAEA; background-color:''' + c + '''">
+                <td><a href="/project/''' + str(row['id']) +'''">''' + str(row['name']) + '''</a></td>
+                <td>''' + p.returnStatus(str(row['status'])) +'''</td>
+            </tr>'''
+            i += 1
         html += '''
-        <tr align="center" style="color: #EAEAEA; background-color:''' + c + '''">
-            <td><a href="/project/''' + str(row['id']) +'''">''' + str(row['name']) + '''</a></td>
-            <td>''' + p.returnStatus(str(row['status'])) +'''</td>
-        </tr>'''
-        i += 1
-    html += '''
-    </table>
-    '''
+        </table>
+        '''
 
     return header() + html + footer()
 #END PROJECT ROUTES
@@ -504,8 +533,17 @@ def listassignments():
     print session['lastPage']
     print session['currentPage']
 
+    a = assignment()
+
+    dmsg = ''
+
+    if request.args.get('delete') in a.getListOfIds():
+        id = request.args.get('delete')
+        a.deleteById(id)
+        dmsg = "Assignment has been deleted"
+
     html = '''
-    <a href="assignment/new">+ Create new assignment</a>
+    <p style="color: green">''' + dmsg + '''</p>
     <table style='width: 100%;' id='user_table'>
         <tr align="center" style="background-color: #2EB4ED; color: #EAEAEA; font-size: 1.13em">
             <td><b>Assignment</b></td>
@@ -515,26 +553,28 @@ def listassignments():
             <td><b>Due Date</b></td>
         </tr>'''
         
-    a = assignment()
-    a.getAll()
-    i = 0
-    for row in a.data:
-        c = "#2EB4ED"
-        if i % 2 == 0:
-            c = "#016C9B"
+    a.getAll("status ASC")
+    if len(a.data) == 0:
+        html = '''<p style="color: green">''' + dmsg + '''</p>
+        <p>There are no assignments to display</p>'''
+    else:
+        i = 0
+        for row in a.data:
+            c = "#2EB4ED"
+            if i % 2 == 0:
+                c = "#016C9B"
+            html += '''
+            <tr align="center" style="color: #EAEAEA; background-color:''' + c + '''">
+                <td><a href="/assignment/''' + str(row['id']) +'''">''' + str(row['title']) + ''' </a></td>
+                <td><a href="/project/''' + str(row['project']) + '''">''' + str(a.returnProjectName(row['project'])) + '''</a></td>
+                <td><a href="/user/''' + str(row['assignedTo']) + '''">''' + str(a.returnUserName(row['assignedTo'])) + '''</a></td>
+                <td>''' + a.returnStatus(str(row['status'])) +'''</td>
+                <td>''' + str(row['dueDate']) +'''</td>
+            </tr>'''
+            i += 1
         html += '''
-        <tr align="center" style="color: #EAEAEA; background-color:''' + c + '''">
-            <td><a href="/assignment/''' + str(row['id']) +'''">''' + str(row['title']) + ''' </a></td>
-            <td><a href="/project/''' + str(row['project']) + '''">''' + str(a.returnProjectName(row['project'])) + '''</a></td>
-            <td><a href="/user/''' + str(row['assignedTo']) + '''">''' + str(a.returnUserName(row['assignedTo'])) + '''</a></td>
-            <td>''' + a.returnStatus(str(row['status'])) +'''</td>
-            <td>''' + str(row['dueDate']) +'''</td>
-        </tr>'''
-        i += 1
-    html += '''
-    </table>
-    '''
-
+        </table>
+        '''
     return header() + html + footer()
 
 
@@ -589,6 +629,7 @@ def edit_assignment(aid):
         col3 = "<div class='col-sm-4'></div>"
         cta = "Create Assignment"
         complete = ""
+        return redirect("/assignments")
     else:
         a.getById(aid)
         w = 'Assignment Information'
@@ -636,6 +677,7 @@ def edit_assignment(aid):
         <br><br>''' + complete + '''<br>
         <input type="submit" class='button-primary' value="''' + cta + '''"/>
     </form>
+    <a href="/assignments?delete=''' + aid + '''" onclick="return confirm('Are you sure you want to delete this assignment?')" style="color: #C2C2C2; font-size: 80%; ''' + hide + '''">Delete Assignmnet</a>
     </div> 
     <div class='col-sm-4'></div>
     </div>

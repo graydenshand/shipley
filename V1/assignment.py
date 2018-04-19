@@ -44,7 +44,7 @@ class assignment(baseObject):
             self.errors.append('You must enter the assignment\'s due date')
         if self.data[n]['assignedTo'] == "18":
             self.errors.append('You must select a user to assign this to')
-        if str(self.data[n]['status']) == "1":
+        if self.data[n]['status'] == 1:
             self.errors.append('This assignment has already been completed')
         if len(self.errors)>0:
             return False
@@ -71,8 +71,8 @@ class assignment(baseObject):
         if self.data[0]['project'] == "":
             self.data[0]['project'] = "9"
         p = project()
-        p.getAll()
-        buf = "<select name='project'>"
+        p.getAll("status DESC")
+        buf = "<select name='project' id='assignmentProjectSelector'>"
         for row in p.data:
             if str(self.data[0]['project']) == str(row['id']):
                 sel = 'selected="true"'
@@ -86,7 +86,7 @@ class assignment(baseObject):
         if self.data[0]['assignedTo'] == "":
             self.data[0]['assignedTo'] = "18"
         u = user()
-        u.getAll()
+        u.getAll("role DESC")
         buf = "<select name='assignedTo'>"
         for row in u.data:
             if str(self.data[0]['assignedTo']) == str(row['id']):

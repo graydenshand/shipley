@@ -118,5 +118,12 @@ class baseObject(object):
             newRow[fn] = ''
         self.addRow(newRow)
 
+    def getListOfIds(self):
+        self.getAll()
+        ids = []
+        for row in self.data:
+            ids.append(str(row['id']))
+        return ids
+
         
         
