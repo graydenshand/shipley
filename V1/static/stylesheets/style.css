@@ -1,1 +1,198 @@
+.main {
+	font-family: 'Montserrat', sans-serif;
+	margin-left: 1em;
+	margin-right: 1em;
+	color: #015478;
+}
 
+.main p {
+	margin: 0;
+	padding: 0;
+}
+
+.main h1 {
+	color: #015478;
+	font-weight: 900;
+}
+
+.main h2 {
+	color: #F58200;
+	font-weight: 900;
+}
+
+.main h3 {
+	color: #2EB4ED;
+	margin: 0;
+}
+
+input[type=submit] {
+	border-style: none;
+}
+
+.button-primary {
+	background-color: #FF9A28;
+	border-radius: .3em;
+	color: #EAEAEA;
+	padding: .2em;
+	box-shadow: -.1em .1em black;
+}
+
+.button-primary:hover {
+	background-color: #F58200;
+	text-decoration: none;
+	color:#EAEAEA;
+	box-shadow: -.1em .1em black;
+}
+
+.button-primary:active {
+	position: relative;
+	top: .1em;
+	right: .1em;
+	background-color: #F58200;
+	text-decoration: none;
+	color:#EAEAEA;
+	box-shadow: 0 0 black;
+}
+
+.button-secondary {
+	background-color: #2EB4ED;
+	border-radius: .3em;
+	color: #EAEAEA;
+	padding: .2em;
+	box-shadow: -.1em .1em black;
+}
+
+.button-secondary:hover {
+	background-color: #015478;
+	color:#EAEAEA;
+	text-decoration: none;
+	box-shadow: -.1em .1em black;
+}
+
+.button-secondary:active {
+	position: relative;
+	top: .1em;
+	right: .1em;
+	background-color: #015478;
+	color:#EAEAEA;
+	text-decoration: none;
+	box-shadow: 0 0 black;
+}
+
+
+#header {
+	border-bottom: solid 1px hsl(200, 80%, 60%);
+	margin-bottom: 1em;
+}
+
+#logo img {
+	width: 100%;
+	padding-left: 1em;
+}
+
+.nav li{
+	list-style: none;
+	display: inline-block;
+	margin: 0 2em 0 2em;
+	padding: 0;
+	color: #015478;
+}
+
+
+@media only screen and (min-width: 768px) {
+	.nav li {
+		position: relative;
+		top: 3.5em;
+	}
+}
+
+.login {
+	margin: auto;
+	width: 20%;
+	padding: 2em;
+	padding-top: 0;
+	padding-bottom: 0;
+	border-radius: 1em;
+	color: #019ADC;
+	margin-top: 1em;
+}
+
+#login input{
+	width: 100%;
+}
+
+#user_form {
+	width: 90%;
+}
+
+#user_form input {
+	width: 100%;
+}
+
+#user_title_main {
+	padding: 0;
+	margin: 0;
+}
+
+#user_table {
+	border: solid 2px #015478;
+	width: 70%;
+	border-radius: 10em;
+	margin-top: .6em;
+}
+
+#user_table a{
+	color: #EAEAEA;
+}
+
+
+#project_logo {
+	width: 100%;
+}
+
+#project_form {
+	width: 89%;
+}
+
+#project_form input {
+	width: 100%;
+}
+
+#assignment_form {
+	width: 90%;
+}
+
+#assignment_form input {
+	width: 100%;
+	margin-left: .1em;
+}
+
+#assignment_form select {
+	margin-left: .1em;
+}
+
+#clock, #date {
+	margin: 0;
+	padding: 0;
+}
+
+.labels {
+	color: #FF9A28;
+	font-size: 115%;
+	margin-bottom: 0;
+	margin-top: 1em;
+}
+
+
+#addTeamMember {
+	visibility:hidden;
+}
+
+
+#removeTeamMember {
+	visibility:hidden;
+}
+
+#teamForms {
+	display:none;
+}
